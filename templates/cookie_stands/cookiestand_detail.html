@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="space-y-8 p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+
+  <div class="flex">
+
+    <h5 class="flex-auto mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{ object.location }}</h5>
+
+
+    <a href="{% url 'cookiestand_update' object.pk %}">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-blue-600">
+        <!-- SVG code -->
+      </svg>
+    </a>
+
+    <a href="{% url 'cookiestand_delete' object.pk %}">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-red-600">
+        <!-- SVG code -->
+      </svg>
+    </a>
+
+  </div>
+
+  <h5 class="flex-auto mb-2 text-md font-bold tracking-tight text-gray-900 dark:text-white">Reviewed by: {{ object.owner }}</h5>
+
+
+  <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">{{ object.description }}</p>
+
+
+  <div class="flex items-center">
+
+    {% for i in "12345" %}
+    <svg aria-hidden="true"
+      class="w-5 h-5 {% if i > object.rating|slugify %}text-grey-300{% else %}text-yellow-400{% endif %}"
+      fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+      <!-- SVG code -->
+    </svg>
+    {% endfor %}
+
+  </div>
+
+
+  <a href="https://en.wikipedia.org/wiki/{{ object.location }}"
+    class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+    Read more
+    <svg aria-hidden="true" class="w-4 h-4 ml-2 -mr-1" fill="currentColor" viewBox="0 0 20 20"
+      xmlns="http://www.w3.org/2000/svg">
+      <!-- SVG code -->
+    </svg>
+  </a>
+</div>
+
+{% endblock content %}
