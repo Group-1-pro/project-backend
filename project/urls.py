@@ -18,11 +18,14 @@ from django.urls import include, path
 from rest_framework_simplejwt import views as jwt_views
 from .views import MyTokenObtainPairView
 from django.views.generic.base import TemplateView
+from django.conf import settings
+from django.conf.urls.static import static
+
 
 #http://127.0.0.1:8000/api/v1/cookiestands/
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("api/v1/cookiestands/", include("cookie_stands.urls")),
+    path("wanderhands/", include("wanderHands.urls")),
     path("api-auth/", include("rest_framework.urls")),
     path(
         "api/token/",
@@ -34,9 +37,13 @@ urlpatterns = [
         jwt_views.TokenRefreshView.as_view(),
         name="token_refresh",
     ),
-    path("cookiestands/", include("cookie_stands.urls_front")),
+    # path("cookiestands/", include("cookie_stands.urls_front")),
     path("", TemplateView.as_view(template_name="home.html"), name="home"),
     path("about/", TemplateView.as_view(template_name="about.html"), name="about"),
     path("accounts/", include("accounts.urls")),
     path("accounts/", include("django.contrib.auth.urls")),
+    path('api/token/', jwt_views.TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
+
 ]
+# urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
