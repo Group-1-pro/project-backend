@@ -129,3 +129,19 @@ def image_details(request, pk):
         image = Image.objects.get(pk=pk)
         image.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+@api_view(['GET'])
+def favorite_by_user(request, pk):
+    if request.method == 'GET':
+        favorite = Favorite.objects.filter(user=pk)
+        serializer = favoriteSerializer(favorite, many=True)
+        return Response(serializer.data)
+
+
+@api_view(['GET'])
+def posts_by_user(request, pk):
+    if request.method == 'GET':
+        post = Post.objects.filter(author=pk)
+        serializer = postSerializer(post, many=True)
+        return Response(serializer.data)

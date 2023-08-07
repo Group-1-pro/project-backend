@@ -8,6 +8,7 @@ class favoriteSerializer(serializers.ModelSerializer):
         fields = ['id', 'user', 'post']
 
 
+
 class imageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Image
