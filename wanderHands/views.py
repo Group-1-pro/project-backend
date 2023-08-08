@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from wanderHands.models import Post, Favorite, Image
 from .permissions import IsOwnerOrReadOnly
-from .serializers import postSerializer, favoriteSerializer, imageSerializer
+from .serializers import postSerializer, favoriteSerializer, imageSerializer,favbyuserSerializer
 from rest_framework.decorators import api_view, parser_classes
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework import status
@@ -134,8 +134,8 @@ def image_details(request, pk):
 @api_view(['GET'])
 def favorite_by_user(request, pk):
     if request.method == 'GET':
-        favorite = Favorite.objects.filter(user=pk)
-        serializer = favoriteSerializer(favorite, many=True)
+        favorites = Favorite.objects.filter(user=pk)
+        serializer = favbyuserSerializer(favorites, many=True)
         return Response(serializer.data)
 
 
