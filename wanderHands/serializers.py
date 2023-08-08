@@ -1,11 +1,7 @@
 from rest_framework import serializers
 from .models import Post, Favorite, Image
+from rest_framework.serializers import CurrentUserDefault
 
-
-class favoriteSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Favorite
-        fields = ['id', 'user', 'post']
 
 
 
@@ -16,6 +12,8 @@ class imageSerializer(serializers.ModelSerializer):
 
 
 class postSerializer(serializers.ModelSerializer):
+    author = serializers.StringRelatedField()
+
     images = imageSerializer(many=True, read_only=True)
     uploaded_images = serializers.ListField(
         child = serializers.ImageField(max_length = 1000000, allow_empty_file = False, use_url = False),
@@ -30,3 +28,18 @@ class postSerializer(serializers.ModelSerializer):
         for image in uploaded_images:
             newpost_image = Image.objects.create(post=post, image=image)
         return post
+
+# favbyuserse   rializer to show all favorites by user in post detail
+class favbyuserSerializer(serializers.ModelSerializer):
+    user = serializers.StringRelatedField()
+    post = postSerializer()  # Assuming you have a serializer named postSerializer for Post model
+
+    class Meta:
+        model = Favorite
+        fields = ('id', 'user', 'post')
+class favoriteSerializer(serializers.ModelSerializer):
+    user = serializers.StringRelatedField()
+    post = postSerializer()
+    class Meta:
+        model = Favorite
+        fields = ['id', 'user', 'post']

@@ -8,8 +8,8 @@ urlpatterns = [
     path("favorites/<int:pk>/", favorite_details, name="favorite_detail"),
     path("images/", image_list, name="image_list"),
     path("images/<int:pk>/", image_details, name="image_detail"),
-    #fav by user
+    #favs by user
     path("favorites/user/<int:pk>/", favorite_by_user, name="favorite_by_user"),
-    #post by user
+    #posts by user
     path("post/user/<int:pk>/", posts_by_user, name="posts_by_user"),
 ]
