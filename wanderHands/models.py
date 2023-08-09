@@ -4,7 +4,8 @@ from django.urls import reverse
 
 
 class Post(models.Model):
-    author = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+    author_id = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+    author_name = models.CharField(max_length=40, default='username')
     title = models.CharField(max_length=255)
     location = models.CharField(max_length=255)
     image = models.ImageField(upload_to='images/', blank=True, null=True)
