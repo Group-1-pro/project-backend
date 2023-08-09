@@ -14,6 +14,7 @@ class Post(models.Model):
     description = models.TextField()
     phone = models.CharField(max_length=15 , default = '123-456-7890')
     email = models.EmailField(default = 'email@email.com')
+
     def __str__(self):
         return self.title
 
@@ -23,7 +24,7 @@ class Post(models.Model):
 
 class Favorite(models.Model):
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
-    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE,related_name='favorites')
 
 
 class Image(models.Model):
