@@ -1,4 +1,3 @@
-from .models import Post
 from rest_framework import serializers
 from .models import Post, Favorite, Image
 from rest_framework.serializers import CurrentUserDefault
