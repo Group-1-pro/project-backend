@@ -1,11 +1,11 @@
 from rest_framework.decorators import api_view, parser_classes, permission_classes
 from rest_framework.parsers import MultiPartParser, FormParser
-from rest_framework.permissions import AllowAny,IsAuthenticated
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
 from wanderHands.models import Post, Favorite, Image
 from .permissions import IsOwnerOrReadOnly
-from .serializers import postSerializer, favoriteSerializer, imageSerializer, favbyuserSerializer,CreateFavoriteSerializer
+from .serializers import postSerializer, favoriteSerializer, imageSerializer, favbyuserSerializer, CreateFavoriteSerializer
 from django.shortcuts import get_object_or_404
 
 
@@ -29,6 +29,7 @@ def post_list(request):
 
 
 @api_view(['GET', 'PUT', 'DELETE'])
+@permission_classes([AllowAny])
 def post_details(request, pk):
     permission_classes = (IsOwnerOrReadOnly,)
     if request.method == 'GET':
@@ -64,6 +65,7 @@ def favorite_list(request):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
 @api_view(['GET', 'DELETE'])
 def favorite_details(request, pk):
     permission_classes = (IsOwnerOrReadOnly,)
@@ -75,7 +77,6 @@ def favorite_details(request, pk):
         favorite = Favorite.objects.get(pk=pk)
         favorite.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
-
 
 
 @api_view(['GET'])
@@ -92,4 +93,3 @@ def posts_by_user(request, pk):
         post = Post.objects.filter(author=pk)
         serializer = postSerializer(post, many=True)
         return Response(serializer.data)
-
