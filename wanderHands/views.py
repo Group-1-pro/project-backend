@@ -65,6 +65,7 @@ def favorite_list(request):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
 @api_view(['GET', 'DELETE'])
 def favorite_details(request, pk):
     permission_classes = (IsOwnerOrReadOnly,)
@@ -86,7 +87,7 @@ def favorite_by_user(request, pk):
         favorites = Favorite.objects.filter(user=pk)
         serializer = favbyuserSerializer(favorites, many=True)
         return Response(serializer.data)
-    
+
     if request.method == 'DELETE':
         try:
             post = Post.objects.get(pk=pk)
