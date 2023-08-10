@@ -1,11 +1,11 @@
 from rest_framework.decorators import api_view, parser_classes, permission_classes
 from rest_framework.parsers import MultiPartParser, FormParser
-from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.permissions import AllowAny , IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
 from wanderHands.models import Post, Favorite, Image
 from .permissions import IsOwnerOrReadOnly
-from .serializers import postSerializer, favoriteSerializer, imageSerializer, favbyuserSerializer, CreateFavoriteSerializer
+from .serializers import postSerializer, favoriteSerializer, imageSerializer, favbyuserSerializer
 from django.shortcuts import get_object_or_404
 
 
@@ -31,7 +31,7 @@ def post_list(request):
 @api_view(['GET', 'PUT', 'DELETE'])
 @permission_classes([AllowAny])
 def post_details(request, pk):
-    permission_classes = (IsOwnerOrReadOnly,)
+    # permission_classes = (IsOwnerOrReadOnly,)
     if request.method == 'GET':
         post = Post.objects.get(pk=pk)
         serializer = postSerializer(post)
@@ -79,17 +79,38 @@ def favorite_details(request, pk):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-@api_view(['GET'])
+
+@api_view(['GET', 'DELETE'])
+@permission_classes([AllowAny])
 def favorite_by_user(request, pk):
     if request.method == 'GET':
         favorites = Favorite.objects.filter(user=pk)
         serializer = favbyuserSerializer(favorites, many=True)
         return Response(serializer.data)
 
+    if request.method == 'DELETE':
+        try:
+            post = Post.objects.get(pk=pk)
+            post.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        except Post.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
 
-@api_view(['GET'])
+
+
+@api_view(['GET', 'DELETE'])
 def posts_by_user(request, pk):
     if request.method == 'GET':
-        post = Post.objects.filter(author=pk)
-        serializer = postSerializer(post, many=True)
+        posts = Post.objects.filter(author_id=pk)
+        serializer = postSerializer(posts, many=True)
         return Response(serializer.data)
+
+    if request.method == 'DELETE':
+        try:
+            post = Post.objects.get(pk=pk)
+            post.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        except Post.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+
