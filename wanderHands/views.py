@@ -1,19 +1,11 @@
 from rest_framework.decorators import api_view, parser_classes, permission_classes
 from rest_framework.parsers import MultiPartParser, FormParser
-<<<<<<< HEAD
-from rest_framework.permissions import AllowAny,IsAuthenticated
-=======
-from rest_framework.permissions import AllowAny
->>>>>>> 894345c ( pulling)
+from rest_framework.permissions import AllowAny , IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
 from wanderHands.models import Post, Favorite, Image
 from .permissions import IsOwnerOrReadOnly
-<<<<<<< HEAD
-from .serializers import postSerializer, favoriteSerializer, imageSerializer, favbyuserSerializer,CreateFavoriteSerializer
-=======
 from .serializers import postSerializer, favoriteSerializer, imageSerializer, favbyuserSerializer
->>>>>>> 894345c ( pulling)
 from django.shortcuts import get_object_or_404
 
 
@@ -87,12 +79,22 @@ def favorite_details(request, pk):
 
 
 
-@api_view(['GET'])
+@api_view(['GET', 'DELETE'])
+@permission_classes([AllowAny])
 def favorite_by_user(request, pk):
     if request.method == 'GET':
         favorites = Favorite.objects.filter(user=pk)
         serializer = favbyuserSerializer(favorites, many=True)
         return Response(serializer.data)
+    
+    if request.method == 'DELETE':
+        try:
+            post = Post.objects.get(pk=pk)
+            post.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        except Post.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
 
 
 @api_view(['GET', 'DELETE'])
