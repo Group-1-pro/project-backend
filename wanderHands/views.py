@@ -1,11 +1,19 @@
 from rest_framework.decorators import api_view, parser_classes, permission_classes
 from rest_framework.parsers import MultiPartParser, FormParser
+<<<<<<< HEAD
 from rest_framework.permissions import AllowAny,IsAuthenticated
+=======
+from rest_framework.permissions import AllowAny
+>>>>>>> 894345c ( pulling)
 from rest_framework.response import Response
 from rest_framework import status
 from wanderHands.models import Post, Favorite, Image
 from .permissions import IsOwnerOrReadOnly
+<<<<<<< HEAD
 from .serializers import postSerializer, favoriteSerializer, imageSerializer, favbyuserSerializer,CreateFavoriteSerializer
+=======
+from .serializers import postSerializer, favoriteSerializer, imageSerializer, favbyuserSerializer
+>>>>>>> 894345c ( pulling)
 from django.shortcuts import get_object_or_404
 
 
@@ -29,8 +37,9 @@ def post_list(request):
 
 
 @api_view(['GET', 'PUT', 'DELETE'])
+@permission_classes([AllowAny])
 def post_details(request, pk):
-    permission_classes = (IsOwnerOrReadOnly,)
+    # permission_classes = (IsOwnerOrReadOnly,)
     if request.method == 'GET':
         post = Post.objects.get(pk=pk)
         serializer = postSerializer(post)
