@@ -86,10 +86,19 @@ def favorite_by_user(request, pk):
         return Response(serializer.data)
 
 
-@api_view(['GET'])
+@api_view(['GET', 'DELETE'])
 def posts_by_user(request, pk):
     if request.method == 'GET':
-        post = Post.objects.filter(author=pk)
-        serializer = postSerializer(post, many=True)
+        posts = Post.objects.filter(author_id=pk)
+        serializer = postSerializer(posts, many=True)
         return Response(serializer.data)
+
+    if request.method == 'DELETE':
+        try:
+            post = Post.objects.get(pk=pk)
+            post.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        except Post.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
 
