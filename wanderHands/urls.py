@@ -10,5 +10,7 @@ urlpatterns = [
     path("favorites/user/<int:pk>/", favorite_by_user, name="favorite_by_user"),
     #posts by user
     path("post/user/<int:pk>/", posts_by_user, name="posts_by_user"),
+    # path('post/<int:pk>/update_images/', update_images, name='update_images'),
+
 
 ]
