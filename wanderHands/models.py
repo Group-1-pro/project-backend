@@ -25,7 +25,8 @@ class Post(models.Model):
 class Favorite(models.Model):
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     post = models.ForeignKey(Post, on_delete=models.CASCADE,related_name='favorites')
-
+    class Meta:
+            unique_together = ['user', 'post']
 
 class Image(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE,related_name='images')
