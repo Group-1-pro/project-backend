@@ -118,13 +118,6 @@ def favorite_by_user(request, pk):
         serializer = favbyuserSerializer(favorites, many=True)
         return Response(serializer.data)
 
-    if request.method == 'DELETE':
-        try:
-            post = Post.objects.get(pk=pk)
-            post.delete()
-            return Response(status=status.HTTP_204_NO_CONTENT)
-        except Post.DoesNotExist:
-            return Response(status=status.HTTP_404_NOT_FOUND)
 
 
 @api_view(['GET', 'DELETE'])
