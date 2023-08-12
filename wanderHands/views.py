@@ -99,18 +99,19 @@ def favorite_list(request):
 
 @api_view(['GET', 'DELETE'])
 def favorite_details(request, pk):
-    permission_classes = (IsOwnerOrReadOnly,)
+    # permission_classes = (IsOwnerOrReadOnly,)
     if request.method == 'GET':
         favorite = Favorite.objects.get(pk=pk)
         serializer = favoriteSerializer(favorite)
         return Response(serializer.data)
+
     if request.method == 'DELETE':
         favorite = Favorite.objects.get(pk=pk)
         favorite.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-@api_view(['GET', 'DELETE'])
+@api_view(['GET'])
 @permission_classes([AllowAny])
 def favorite_by_user(request, pk):
     if request.method == 'GET':
