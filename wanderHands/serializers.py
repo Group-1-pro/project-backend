@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import Post, Favorite, Image
 from rest_framework.serializers import CurrentUserDefault
+from cloudinary.models import CloudinaryField
 
 
 class imageSerializer(serializers.ModelSerializer):

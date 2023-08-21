@@ -14,6 +14,13 @@ from datetime import timedelta
 from pathlib import Path
 import environ
 import os
+# cloudinary imports
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
+
+
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -63,6 +70,7 @@ INSTALLED_APPS = [
     # local
     "accounts",
     "wanderHands",
+    "cloudinary",
 ]
 
 MIDDLEWARE = [
@@ -190,3 +198,12 @@ LOGOUT_REDIRECT_URL = "home"
 MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 MEDIA_URL = '/media/'
 # shareef
+
+
+
+# cloudinary config
+cloudinary.config(
+    cloud_name = 'dvxpfm40c',
+    api_key = '558456792549884',
+    api_secret = 'z469Le76zvJPz56f2FJEfl1OsrQ'
+)
