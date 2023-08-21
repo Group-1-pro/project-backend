@@ -11,7 +11,9 @@ class imageSerializer(serializers.ModelSerializer):
 
 
 class postSerializer(serializers.ModelSerializer):
-    images = imageSerializer(many=True, read_only=True, required=False)
+    # images = imageSerializer(many=True, read_only=True, required=False)
+    images = imageSerializer(many=True, required=False)
+
     uploaded_images = serializers.ListField(
         child=serializers.ImageField(
             max_length=1000000, allow_empty_file=False, use_url=False),
